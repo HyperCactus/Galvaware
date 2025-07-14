@@ -1,14 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, ClientViewSet, QuoteViewSet, JobViewSet, JobStatusLogViewSet, QALogViewSet, CommentViewSet
+from .views import CreateUserView, LoginView, LogoutView, JobViewSet, QuoteViewSet
 
 router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'clients', ClientViewSet)
-router.register(r'quotes', QuoteViewSet)
 router.register(r'jobs', JobViewSet)
-router.register(r'job-status-logs', JobStatusLogViewSet)
-router.register(r'qa-logs', QALogViewSet)
-router.register(r'comments', CommentViewSet)
+router.register(r'quotes', QuoteViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('register/', CreateUserView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('', include(router.urls)),
+]
